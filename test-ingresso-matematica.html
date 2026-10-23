@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test d'ingresso di Matematica – Classe prima</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f6fa; --card:#fff; --ink:#1d2433; --muted:#5b6475; --line:#d9dde7;
+    --brand:#1f4e9c; --brand-ink:#fff; --ok:#1e8e4e; --warn:#c77700; --bad:#c0392b;
+    --sel:#e3ecfb; --fs:18px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#12151c; --card:#1b202b; --ink:#e8ebf2; --muted:#9aa3b5; --line:#2e3545;
+           --brand:#6fa0ee; --brand-ink:#0b1220; --sel:#25365a; }
+  }
+  *{box-sizing:border-box}
+  html{font-size:var(--fs)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5}
+  header.top{background:var(--brand);color:var(--brand-ink);padding:14px 16px}
+  header.top h1{margin:0;font-size:1.1rem}
+  header.top p{margin:2px 0 0;font-size:.8rem;opacity:.9}
+  main{max-width:760px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+  label{display:block;font-weight:600;margin:10px 0 4px}
+  input[type=text]{width:100%;padding:12px;font-size:1rem;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+  button{font:inherit;cursor:pointer}
+  .btn{background:var(--brand);color:var(--brand-ink);border:0;border-radius:10px;padding:12px 20px;font-weight:700}
+  .btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .hidden{display:none!important}
+  .bar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--line);padding:8px 12px}
+  .bar .row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.85rem;color:var(--muted)}
+  .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .chip{width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:.75rem;padding:0}
+  .chip.done{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+  .q h2{font-size:.9rem;color:var(--muted);margin:0 0 4px;font-weight:600}
+  .q .text{font-weight:600;margin-bottom:10px}
+  .opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--bg);color:var(--ink);
+       border:2px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0;min-height:48px}
+  .opt .k{flex:0 0 28px;height:28px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:.8rem}
+  .opt.sel{background:var(--sel);border-color:var(--brand)}
+  .opt.sel .k{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+  .opt.right{border-color:var(--ok);background:rgba(30,142,78,.12)}
+  .opt.wrong{border-color:var(--bad);background:rgba(192,57,43,.12)}
+  table.data{border-collapse:collapse;margin:8px 0}
+  table.data td,table.data th{border:1px solid var(--ink);padding:4px 14px;text-align:center}
+  svg.fig{max-width:100%;height:auto;margin:6px 0;color:var(--ink)}
+  .score{font-size:2.4rem;font-weight:800;margin:0}
+  .fascia{font-weight:700}
+  .tools{display:flex;gap:6px;align-items:center}
+  .tools button{background:rgba(255,255,255,.2);color:inherit;border:1px solid rgba(255,255,255,.5);border-radius:6px;padding:2px 10px}
+  .note{font-size:.8rem;color:var(--muted)}
+  .katex{font-size:1.05em}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+    <div>
+      <h1>Test d'ingresso – Matematica</h1>
+      <p>Liceo Scientifico “A. Labriola” · Classe prima · A.S. 2026/2027</p>
+    </div>
+    <div class="tools" aria-label="Dimensione del testo">
+      <button id="fsMinus" aria-label="Riduci testo">A−</button>
+      <button id="fsPlus" aria-label="Ingrandisci testo">A+</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SCHERMATA INIZIALE -->
+  <section id="start" class="card">
+    <h2 style="margin-top:0">Inizia il test</h2>
+    <p>23 quesiti a risposta multipla (A–E). Una sola risposta è corretta. Risposta esatta: +1 punto; omessa o errata: 0 punti.</p>
+    <label for="nome">Cognome e Nome</label>
+    <input id="nome" type="text" autocomplete="off" placeholder="Es. Rossi Mario">
+    <label for="classe">Classe</label>
+    <input id="classe" type="text" autocomplete="off" placeholder="Es. 1A">
+    <p id="startErr" class="note" style="color:var(--bad)"></p>
+    <button id="startBtn" class="btn">Comincia</button>
+  </section>
+
+  <!-- TEST -->
+  <section id="test" class="hidden">
+    <div class="bar">
+      <div class="row">
+        <span id="progress">Risposte: 0/23</span>
+        <span id="timer"></span>
+      </div>
+      <div id="chips" class="chips"></div>
+    </div>
+    <div id="questions" style="margin-top:14px"></div>
+    <div class="card">
+      <p id="submitInfo" class="note"></p>
+      <button id="submitBtn" class="btn">Consegna il test</button>
+    </div>
+  </section>
+
+  <!-- RISULTATO -->
+  <section id="result" class="card hidden">
+    <h2 style="margin-top:0">Test consegnato</h2>
+    <p id="who" class="note"></p>
+    <p class="score" id="scoreTxt"></p>
+    <p class="fascia" id="fasciaTxt"></p>
+    <p id="votoTxt"></p>
+    <p id="saveMsg" class="note"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="csvBtn" class="btn ghost">Scarica il risultato (CSV)</button>
+    </div>
+    <div id="review" style="margin-top:16px"></div>
+  </section>
+
+</main>
+
+<script type="module">
+/* =====================================================================
+   CONFIGURAZIONE (modifica qui)
+   ===================================================================== */
+const CONFIG = {
+  FILA: "A",
+  TEMPO_MINUTI: 0,          // 0 = nessun limite di tempo
+  MOSTRA_CORREZIONE: false, // true = lo studente vede quali risposte erano giuste
+  // Per salvare i risultati su Firestore incolla qui la config del tuo progetto Firebase.
+  // Se apiKey è vuota, i risultati NON vengono inviati: restano sul dispositivo (CSV).
+  FIREBASE: { apiKey:"", authDomain:"", projectId:"", appId:"" },
+  COLLEZIONE: "testIngressoMatematica"
+};
+
+/* =====================================================================
+   DOMANDE – Fila A
+   key = indice della risposta corretta (0=A ... 4=E)
+   ===================================================================== */
+const r = String.raw;
+
+/* istogramma del quesito 20 (voto → numero di studenti) */
+function makeChart(){
+  const data = [[4,2],[5,3],[6,6],[7,5],[8,3],[9,1]];
+  const u = 22, base = 170, x0 = 50, w = 38, gap = 8;
+  let bars = "", xl = "";
+  data.forEach(([v,f],i)=>{
+    const x = x0 + i*(w+gap);
+    bars += `<rect x="${x}" y="${base-f*u}" width="${w}" height="${f*u}" fill="#6fa0ee" stroke="currentColor"/>`;
+    xl   += `<text x="${x+w/2}" y="${base+16}" text-anchor="middle">${v}</text>`;
+  });
+  let yl = "";
+  for(let k=0;k<=6;k++){
+    yl += `<text x="${x0-8}" y="${base-k*u+4}" text-anchor="end">${k}</text>`;
+    yl += `<line x1="${x0}" y1="${base-k*u}" x2="${x0+data.length*(w+gap)}" y2="${base-k*u}" stroke="currentColor" stroke-opacity=".2"/>`;
+  }
+  return `<svg class="fig" viewBox="0 0 360 215" role="img"
+    aria-label="Istogramma delle frequenze dei voti: 4→2, 5→3, 6→6, 7→5, 8→3, 9→1">
+    <g font-size="12" fill="currentColor">${yl}${xl}
+      <text x="${x0}" y="14" font-weight="700">frequenza</text>
+      <text x="${x0+130}" y="208" font-weight="700">voti</text></g>
+    ${bars}
+    <line x1="${x0}" y1="${base}" x2="${x0+data.length*(w+gap)}" y2="${base}" stroke="currentColor"/>
+    <line x1="${x0}" y1="${base-6*u}" x2="${x0}" y2="${base}" stroke="currentColor"/>
+  </svg>`;
+}
+
+const rectSVG = r`
+<svg class="fig" viewBox="0 0 300 150" role="img" aria-label="Figura: semicerchio di raggio 10 cm e rettangolo">
+  <g fill="none" stroke="currentColor" stroke-width="1.5">
+    <rect x="30" y="20" width="240" height="120"/>
+    <path d="M30 140 A120 120 0 0 1 270 140"/>
+    <line x1="150" y1="140" x2="205" y2="70" stroke-dasharray="4 3"/>
+  </g>
+  <text x="168" y="112" font-size="13" fill="currentColor">10 cm</text>
+</svg>`;
+
+const tableHTML = r`
+<table class="data" aria-label="Tabella x e y">
+  <tr><th>x</th><td>0</td><td>1</td><td>2</td></tr>
+  <tr><th>y</th><td>2</td><td>3</td><td>6</td></tr>
+</table>`;
+
+const QUESTIONS = [
+  { t: r`Qual è il valore dell'espressione: $12 - 4 \cdot 2 + 6 : 2$?`,
+    o: ["11","7","5","1","14"], key:1 },
+  { t: r`Quale delle seguenti frazioni è la maggiore?`,
+    o: [r`$\frac{3}{2}$`, r`$\frac{4}{3}$`, r`$\frac{6}{5}$`, r`$\frac{12}{7}$`, r`$\frac{5}{4}$`], key:3 },
+  { t: r`Il risultato di $(2^3)^2 \cdot 2^4 : 2^7$ è:`,
+    o: [r`$2^2$`, r`$2^3$`, r`$2^5$`, "2", "1"], key:1 },
+  { t: r`Calcola il Minimo Comune Multiplo tra 18, 24 e 30.`,
+    o: ["6","180","360","720","90"], key:2 },
+  { t: r`Se a una scuola si sono iscritti 120 studenti e il 15% frequenta l'indirizzo sportivo, quanti sono gli studenti dello sportivo?`,
+    o: ["15","18","20","24","30"], key:1 },
+  { t: r`Una giacca costa 150 €. Se viene applicato uno sconto del 20%, qual è il prezzo scontato?`,
+    o: ["130 €","120 €","110 €","100 €","125 €"], key:1 },
+  { t: r`Risolvi la seguente proporzione: $x : 15 = 4 : 3$.`,
+    o: ["x = 20","x = 12","x = 5","x = 45","x = 10"], key:0 },
+  { t: r`Qual è il valore di $x$ che soddisfa l'equazione $3x - 7 = 8$?`,
+    o: ["x = 1","x = 3","x = 5","x = 15","x = −5"], key:2 },
+  { t: r`Se $a = -2$ e $b = 3$, qual è il valore di $2a^2 - 3b$?`,
+    o: ["−17","−1","17","1","−5"], key:1 },
+  { t: r`La somma di tre numeri interi consecutivi è 42. Qual è il più piccolo dei tre numeri?`,
+    o: ["12","13","14","15","11"], key:1 },
+  { t: r`Hai un sacchetto di 350 g di biscotti, in cui ne sono rimasti soltanto 8. Lo metti su una bilancia e vedi che ora pesa 56 g. Quanti biscotti conteneva il sacchetto da pieno?`,
+    o: ["59","52","43","50","42"], key:3 },
+  { t: r`Tre amici confrontano la capacità delle bottigliette di acqua che hanno acquistato: una è da $\frac{3}{4}$ di litro, una da $\frac{3}{5}$ di litro, una da $\frac{2}{3}$ di litro. Mettile in ordine di capacità, dalla più grande alla più piccola.`,
+    o: [r`$\frac{3}{4}$ di litro; $\frac{2}{3}$ di litro; $\frac{3}{5}$ di litro`,
+        r`$\frac{2}{3}$ di litro; $\frac{3}{4}$ di litro; $\frac{3}{5}$ di litro`,
+        r`$\frac{3}{5}$ di litro; $\frac{3}{4}$ di litro; $\frac{2}{3}$ di litro`,
+        r`$\frac{3}{5}$ di litro; $\frac{2}{3}$ di litro; $\frac{3}{4}$ di litro`,
+        r`$\frac{2}{3}$ di litro; $\frac{3}{5}$ di litro; $\frac{3}{4}$ di litro`], key:0 },
+  { t: r`In un sacchetto ci sono 5 palline rosse, 3 verdi e 2 gialle. Estraendo una pallina a caso, qual è la probabilità che sia verde?`,
+    o: [r`$\frac{1}{3}$`, r`$\frac{3}{10}$`, r`$\frac{3}{7}$`, r`$\frac{1}{2}$`, r`$\frac{1}{5}$`], key:1 },
+  { t: r`La media aritmetica dei voti di quattro test è 7. Se i primi tre voti sono 6, 8 e 5, qual è il quarto voto?`,
+    o: ["7","8","9","6","10"], key:2 },
+  { t: r`Quale espressione descrive la frase: “il triplo del quadrato di un numero $n$, diminuito di 2”?`,
+    o: [r`$(3n)^2 - 2$`, r`$3(n^2 - 2)$`, r`$3n^2 - 2$`, r`$3(n-2)^2$`, r`$n^2 - 2$`], key:2 },
+  { t: r`Una mappa ha una scala 1:200.000. Se la distanza sulla mappa tra due città è di 5 cm, qual è la distanza reale in chilometri?`,
+    o: ["1 km","10 km","100 km","20 km","50 km"], key:1 },
+  { t: r`Se moltiplichiamo un numero positivo per 0,05, otteniamo lo stesso risultato che si otterrebbe dividendo lo stesso numero per:`,
+    o: ["5","20","50","2","0,5"], key:1 },
+  { t: r`Qual è la frazione generatrice del numero decimale periodico $0,\overline{3}$?`,
+    o: [r`$\frac{3}{10}$`, r`$\frac{1}{3}$`, r`$\frac{3}{100}$`, r`$\frac{1}{30}$`, r`$\frac{33}{100}$`], key:1 },
+  { t: r`Data la seguente tabella, da quale delle seguenti relazioni è rappresentata?`,
+    extra: tableHTML,
+    o: [r`$y = x + 2$`, r`$y = x^2 + 2$`, r`$y = 2x + 2$`, r`$y = 2x^2 + 2$`, r`$y = 2x - 2$`], key:1 },
+  { t: r`Nel diagramma in figura è rappresentata la distribuzione dei voti dell'ultima verifica di storia di una classe di 20 alunni. Quale affermazione è falsa?`,
+    extra: makeChart(),
+    o: ["Il 25% degli studenti ha ottenuto come voto 7.",
+        "Più del 50% della classe è risultata insufficiente.",
+        "Il 25% degli studenti ha ottenuto come voto 4 oppure 5.",
+        r`$\frac{1}{10}$ degli studenti ha ottenuto come voto 4.`,
+        r`Il 75% degli studenti ha ottenuto voti $\geq 6$.`], key:1 },
+  { t: r`Quale delle seguenti affermazioni è FALSA per qualsiasi triangolo?`,
+    o: ["La somma degli angoli interni è sempre 180°.",
+        "Ciascun lato è minore della somma degli altri due.",
+        "Può avere al massimo un angolo ottuso.",
+        "Un triangolo equilatero è sempre acutangolo.",
+        "L'ortocentro si trova sempre all'interno del triangolo."], key:4 },
+  { t: r`Un triangolo rettangolo ha i cateti lunghi 6 cm e 8 cm. Quanto misura l'ipotenusa?`,
+    o: ["14 cm","10 cm","12 cm", r`$\sqrt{14}$ cm`,"48 cm"], key:1 },
+  { t: r`Un rettangolo è inscritto in un semicerchio come in figura. Sapendo che il raggio del cerchio è 10 cm, il perimetro del rettangolo misura:`,
+    extra: rectSVG,
+    o: ["20 cm","30 cm","40 cm","50 cm","60 cm"], key:4 }
+];
+
+/* Griglia di valutazione */
+const FASCE = [
+  { min:21, label:"Eccellente",                         voto:"9–10" },
+  { min:17, label:"Buono / Distinto",                   voto:"7,5–8,5" },
+  { min:14, label:"Sufficiente / Discreto",             voto:"6–7" },
+  { min:10, label:"Insufficiente / Lacune diffuse",     voto:"4,5–5,5" },
+  { min:0,  label:"Gravemente insufficiente",           voto:"3–4" }
+];
+const fasciaPer = p => FASCE.find(f => p >= f.min);
+
+/* =====================================================================
+   STATO E UI
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const LS = "testIngresso_" + CONFIG.FILA;
+const N = QUESTIONS.length;
+let answers = new Array(N).fill(null);
+let student = { nome:"", classe:"" };
+let startedAt = null, timerId = null, finished = false;
+
+function typeset(el){
+  if(window.renderMathInElement){
+    window.renderMathInElement(el, { delimiters:[{left:"$",right:"$",display:false}], throwOnError:false });
+  }
+}
+function whenKatex(fn){
+  if(window.renderMathInElement) return fn();
+  window.addEventListener("load", fn);
+}
+
+/* dimensione testo */
+let fs = +(localStorage.getItem("ti_fs")||18);
+const applyFs = () => { document.documentElement.style.setProperty("--fs", fs+"px"); localStorage.setItem("ti_fs", fs); };
+$("fsPlus").onclick  = () => { fs = Math.min(26, fs+2); applyFs(); };
+$("fsMinus").onclick = () => { fs = Math.max(14, fs-2); applyFs(); };
+applyFs();
+
+/* costruzione domande */
+function buildQuestions(){
+  const box = $("questions"); box.innerHTML = ""; $("chips").innerHTML = "";
+  QUESTIONS.forEach((q,i)=>{
+    const card = document.createElement("article");
+    card.className = "card q"; card.id = "q"+i;
+    card.innerHTML = `<h2>Quesito ${i+1} di ${N}</h2><div class="text">${q.t}</div>${q.extra||""}<div class="opts" role="radiogroup" aria-label="Risposte quesito ${i+1}"></div>`;
+    const opts = card.querySelector(".opts");
+    q.o.forEach((txt,j)=>{
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "opt"; b.setAttribute("role","radio"); b.setAttribute("aria-checked","false");
+      b.innerHTML = `<span class="k">${"ABCDE"[j]}</span><span>${txt}</span>`;
+      b.onclick = () => choose(i,j);
+      opts.appendChild(b);
+    });
+    box.appendChild(card);
+
+    const chip = document.createElement("button");
+    chip.type = "button"; chip.className = "chip"; chip.id = "chip"+i; chip.textContent = i+1;
+    chip.onclick = () => $("q"+i).scrollIntoView({behavior:"smooth", block:"start"});
+    $("chips").appendChild(chip);
+  });
+  whenKatex(()=>typeset(box));
+}
+
+function choose(i,j){
+  if(finished) return;
+  answers[i] = (answers[i] === j) ? null : j;   // secondo tocco = deseleziona
+  paint(i); updateProgress(); persist();
+}
+function paint(i){
+  const opts = $("q"+i).querySelectorAll(".opt");
+  opts.forEach((b,j)=>{
+    const on = answers[i] === j;
+    b.classList.toggle("sel", on); b.setAttribute("aria-checked", on);
+  });
+  $("chip"+i).classList.toggle("done", answers[i] !== null);
+}
+function updateProgress(){
+  const n = answers.filter(a=>a!==null).length;
+  $("progress").textContent = `Risposte: ${n}/${N}`;
+  $("submitInfo").textContent = n < N
+    ? `Hai lasciato ${N-n} quesit${N-n===1?"o":"i"} senza risposta (contano 0 punti).`
+    : "Hai risposto a tutti i quesiti. Controlla e consegna.";
+}
+function persist(){
+  try{ localStorage.setItem(LS, JSON.stringify({answers, student, startedAt})); }catch(e){}
+}
+
+/* timer */
+function startTimer(){
+  if(!CONFIG.TEMPO_MINUTI) return;
+  const end = startedAt + CONFIG.TEMPO_MINUTI*60000;
+  const tick = () => {
+    const left = Math.max(0, end - Date.now());
+    const m = Math.floor(left/60000), s = Math.floor(left%60000/1000);
+    $("timer").textContent = `⏱ ${m}:${String(s).padStart(2,"0")}`;
+    if(left === 0){ clearInterval(timerId); submit(true); }
+  };
+  tick(); timerId = setInterval(tick, 500);
+}
+
+/* avvio */
+$("startBtn").onclick = () => {
+  const nome = $("nome").value.trim(), classe = $("classe").value.trim();
+  if(!nome || !classe){ $("startErr").textContent = "Inserisci cognome e nome e la classe."; return; }
+  student = { nome, classe };
+  startedAt = Date.now();
+  $("start").classList.add("hidden"); $("test").classList.remove("hidden");
+  buildQuestions(); answers.forEach((_,i)=>paint(i)); updateProgress(); persist(); startTimer();
+  window.scrollTo(0,0);
+};
+
+/* consegna */
+$("submitBtn").onclick = () => {
+  const vuote = answers.filter(a=>a===null).length;
+  const msg = vuote ? `Ci sono ${vuote} quesiti senza risposta. Vuoi consegnare comunque?` : "Vuoi consegnare il test? Dopo non potrai modificare le risposte.";
+  if(confirm(msg)) submit(false);
+};
+
+async function submit(auto){
+  if(finished) return; finished = true; clearInterval(timerId);
+  const punti = answers.reduce((s,a,i)=> s + (a === QUESTIONS[i].key ? 1 : 0), 0);
+  const f = fasciaPer(punti);
+  const durataSec = Math.round((Date.now()-startedAt)/1000);
+
+  $("test").classList.add("hidden"); $("result").classList.remove("hidden");
+  $("who").textContent = `${student.nome} · classe ${student.classe} · Fila ${CONFIG.FILA}` + (auto ? " · consegnato allo scadere del tempo" : "");
+  $("scoreTxt").textContent = `${punti} / ${N}`;
+  $("fasciaTxt").textContent = f.label;
+  $("votoTxt").textContent = `Voto orientativo: ${f.voto}` + (punti < 3 ? " (voto d'ufficio: 3)" : "");
+
+  const record = {
+    nome: student.nome, classe: student.classe, fila: CONFIG.FILA,
+    punteggio: punti, totale: N, fascia: f.label, voto: f.voto,
+    risposte: answers.map(a => a===null ? "-" : "ABCDE"[a]).join(""),
+    durataSec, consegnatoIl: new Date().toISOString()
+  };
+  window.__record = record;
+  try{ localStorage.removeItem(LS); }catch(e){}
+
+  if(CONFIG.MOSTRA_CORREZIONE) renderReview();
+  await saveRemote(record);
+  window.scrollTo(0,0);
+}
+
+async function saveRemote(rec){
+  const c = CONFIG.FIREBASE;
+  if(!c.apiKey){ $("saveMsg").textContent = "Risultato non inviato online: scarica il CSV e consegnalo al docente."; return; }
+  try{
+    const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+    const { getFirestore, collection, addDoc, serverTimestamp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+    const db = getFirestore(initializeApp(c));
+    await addDoc(collection(db, CONFIG.COLLEZIONE), { ...rec, ts: serverTimestamp() });
+    $("saveMsg").textContent = "✅ Risultato inviato al docente.";
+  }catch(e){
+    console.error(e);
+    $("saveMsg").textContent = "⚠️ Invio non riuscito. Scarica il CSV e consegnalo al docente.";
+  }
+}
+
+function renderReview(){
+  const box = $("review"); box.innerHTML = "<h3>Correzione</h3>";
+  QUESTIONS.forEach((q,i)=>{
+    const card = document.createElement("div"); card.className = "card q";
+    card.innerHTML = `<h2>Quesito ${i+1}</h2><div class="text">${q.t}</div>${q.extra||""}`;
+    q.o.forEach((txt,j)=>{
+      const d = document.createElement("div"); d.className = "opt";
+      if(j === q.key) d.classList.add("right");
+      else if(j === answers[i]) d.classList.add("wrong");
+      d.innerHTML = `<span class="k">${"ABCDE"[j]}</span><span>${txt}</span>`;
+      card.appendChild(d);
+    });
+    box.appendChild(card);
+  });
+  whenKatex(()=>typeset(box));
+}
+
+$("csvBtn").onclick = () => {
+  const r = window.__record; if(!r) return;
+  const head = Object.keys(r).join(";"), row = Object.values(r).map(v=>`"${String(v).replace(/"/g,'""')}"`).join(";");
+  const blob = new Blob(["\ufeff"+head+"\n"+row], {type:"text/csv;charset=utf-8"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = `test-ingresso_${r.nome.replace(/\s+/g,"_")}.csv`; a.click();
+};
+
+/* ripristino dopo un ricaricamento accidentale */
+try{
+  const saved = JSON.parse(localStorage.getItem(LS) || "null");
+  if(saved && saved.student && saved.student.nome){
+    answers = saved.answers; student = saved.student; startedAt = saved.startedAt;
+    $("start").classList.add("hidden"); $("test").classList.remove("hidden");
+    buildQuestions(); answers.forEach((_,i)=>paint(i)); updateProgress(); startTimer();
+  }
+}catch(e){}
+</script>
+</body>
+</html>
